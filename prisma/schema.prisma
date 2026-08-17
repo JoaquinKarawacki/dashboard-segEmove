@@ -1,0 +1,43 @@
+// Esquema de la base de datos (PostgreSQL en Railway). Solo la capa de
+// infraestructura importa el cliente generado a partir de este esquema —
+// dominio y aplicación no saben que existe Prisma.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Una fila = una transacción de carga (una fila de la hoja "Panel" del Excel).
+// `idTransaccion` es la clave de negocio (columna "Transacción" del Excel):
+// cada carga de un Excel nuevo hace upsert por esta clave, así los datos se
+// acumulan en vez de reemplazarse.
+model TransaccionRegistro {
+  idTransaccion    String   @id @map("id_transaccion")
+  cargador         String
+  conector         String?
+  tag              String?
+  usuario          String?
+  fechaInicio      DateTime @map("fecha_inicio")
+  fechaFin         DateTime? @map("fecha_fin")
+  potenciaKw       Float    @map("potencia_kw")
+  energiaKwh       Float    @map("energia_kwh")
+  compra           Float
+  fijo             Float
+  permanencia      Float
+  venta            Float
+  descuento        Float
+  total            Float
+  duracionMinutos  Float    @map("duracion_minutos")
+  excluir          Boolean
+
+  creadoEl         DateTime @default(now()) @map("creado_el")
+  actualizadoEl    DateTime @updatedAt @map("actualizado_el")
+
+  @@index([cargador])
+  @@index([fechaInicio])
+  @@map("transacciones")
+}

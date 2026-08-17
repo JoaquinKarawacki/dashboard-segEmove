@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Paleta basada en el dashboard gerencial de referencia de SEG
+ * (cmi-seg-dashboard-standalone.html): fondo e interfaz claros, tipografía y
+ * rojo de marca como acento de identidad (pestañas, botones, títulos), pero
+ * los GRÁFICOS usan colores bien distinguibles entre sí (no monocromáticos) —
+ * igual que ese dashboard de referencia. Sin modo oscuro: la referencia de
+ * la empresa tampoco lo usa, y un fondo casi negro resultó ilegible.
+ */
+:root {
+  color-scheme: light;
+  --color-pagina: #f8fafc;
+  --color-superficie: #ffffff;
+  --color-borde: #e2e8f0;
+  --color-texto: #1e293b;
+  --color-texto-secundario: #475569;
+  --color-texto-muted: #94a3b8;
+  --color-grilla: #eef2f6;
+
+  /* Identidad de marca SEG: tipografía + acento rojo en la interfaz. */
+  --color-rojo: #ca3517;
+  --color-rojo-oscuro: #a82d12;
+  --color-rojo-profundo: #8a2410;
+
+  /* Paleta de estado (semáforo), igual a la del dashboard gerencial de SEG. */
+  --color-estado-bueno: #16a34a;
+  --color-estado-alerta: #d97706;
+  --color-estado-malo: #dc2626;
+
+  /* Paleta categórica para gráficos con varias series (franja horaria, etc.):
+     hues bien distinguibles entre sí, no tonos de un mismo color. */
+  --serie-1: #2563eb;
+  --serie-2: #d97706;
+  --serie-3: #0891b2;
+}
+
+body {
+  background-color: var(--color-pagina);
+  color: var(--color-texto);
+  font-family: var(--font-red-hat, "Red Hat Display", Arial, sans-serif);
+}
