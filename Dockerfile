@@ -1,4 +1,4 @@
-# Imagen para Railway: build de Next.js en modo "standalone" (ver next.config.ts).
+# Imagen para Railway.
 FROM node:24-slim AS build
 WORKDIR /app
 
@@ -18,10 +18,10 @@ ENV NODE_ENV=production
 # la hora local del negocio.
 ENV TZ=America/Montevideo
 
-COPY --from=build /app/.next/standalone ./
-COPY --from=build /app/.next/static ./.next/static
-COPY --from=build /app/prisma ./prisma
-COPY --from=build /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=build /app ./
 
 EXPOSE 3000
-CMD ["node", "server.js"]
+# Aplica las migraciones pendientes contra la base de Railway antes de
+# arrancar el servidor. Node/Prisma CLI están disponibles porque se copió
+# node_modules completo (ver next.config.ts sobre por qué no usamos "standalone").
+CMD ["sh", "-c", "npx prisma migrate deploy && npm run start"]
