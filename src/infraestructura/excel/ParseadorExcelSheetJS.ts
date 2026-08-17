@@ -2,9 +2,13 @@ import * as XLSX from "xlsx";
 import { ParseadorExcel, ErrorFormatoExcelInvalido } from "@/aplicacion/puertos/ParseadorExcel";
 import { DatosCrudosTransaccion } from "@/dominio/entidades/Transaccion";
 
-const NOMBRE_HOJA_DATOS = "Panel";
+const NOMBRE_HOJA_DATOS = "Worksheet";
 
-/** Nombres de columna esperados en la hoja "Panel", tal como los exporta el manager. */
+/**
+ * Nombres de columna esperados en la hoja de datos, tal como los exporta el
+ * manager. "Excluir" no está en esta lista porque el export actual no la
+ * incluye: si falta, se toma como no excluida (ver `leerNumero`).
+ */
 const COLUMNAS_ESPERADAS = [
   "Transacción",
   "Cargador",
@@ -22,10 +26,9 @@ const COLUMNAS_ESPERADAS = [
   "Descuento ($)",
   "Total ($)",
   "Duración (m)",
-  "Excluir",
 ] as const;
 
-/** Una fila cruda de la hoja "Panel", tal como la devuelve SheetJS. */
+/** Una fila cruda de la hoja de datos, tal como la devuelve SheetJS. */
 type FilaExcel = Record<string, string | number | boolean | Date | undefined>;
 
 /**

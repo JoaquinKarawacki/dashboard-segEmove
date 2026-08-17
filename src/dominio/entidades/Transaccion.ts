@@ -1,7 +1,7 @@
 import { FranjaHoraria, calcularFranjaHoraria } from "./FranjaHoraria";
 
 /**
- * Una transacción de carga (una fila de la hoja "Panel" del Excel). Los campos
+ * Una transacción de carga (una fila de la hoja de datos del Excel). Los campos
  * que en el Excel se calculaban con fórmulas (mes, año, franja horaria) se
  * calculan aquí con `crearTransaccion`, a partir de los campos crudos.
  */
