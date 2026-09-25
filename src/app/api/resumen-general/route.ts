@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { crearRangoFechas, parsearFechaDesdeTextoISO } from "@/dominio/entidades/RangoFechas";
+import {
+  ErrorFechaInvalida,
+  crearRangoFechas,
+  parsearFechaDesdeTextoISO,
+} from "@/dominio/entidades/RangoFechas";
 import { contenedor } from "@/infraestructura/contenedor";
 
 export async function GET(peticion: NextRequest): Promise<NextResponse> {
@@ -17,6 +21,10 @@ export async function GET(peticion: NextRequest): Promise<NextResponse> {
     });
     return NextResponse.json(comparacion, { status: 200 });
   } catch (error) {
+    // Errores de entrada del usuario -> 400 (no es un fallo del servidor).
+    if (error instanceof ErrorFechaInvalida) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
     console.error("Error inesperado al obtener el resumen general:", error);
     return NextResponse.json({ error: "Ocurrió un error inesperado." }, { status: 500 });
   }

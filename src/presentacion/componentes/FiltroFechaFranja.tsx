@@ -12,20 +12,27 @@ export interface ValorFiltro {
 interface PropiedadesFiltro {
   readonly valor: ValorFiltro;
   readonly alCambiar: (nuevoValor: ValorFiltro) => void;
+  /** Límites opcionales del histórico disponible, para acotar los campos de fecha. */
+  readonly fechaMinima?: string;
+  readonly fechaMaxima?: string;
 }
 
 /** Filtro equivalente a las celdas B6/E6/B8/E8 de cada hoja "Dashboard <Estación>" del Excel. */
-export function FiltroFechaFranja({ valor, alCambiar }: PropiedadesFiltro) {
+export function FiltroFechaFranja({ valor, alCambiar, fechaMinima, fechaMaxima }: PropiedadesFiltro) {
   return (
     <div className="flex flex-wrap items-end gap-4 rounded-lg border border-borde bg-superficie p-4">
       <CampoFecha
         etiqueta="Día desde"
         valor={valor.desde}
+        min={fechaMinima}
+        max={fechaMaxima}
         alCambiar={(desde) => alCambiar({ ...valor, desde })}
       />
       <CampoFecha
         etiqueta="Día hasta"
         valor={valor.hasta}
+        min={fechaMinima}
+        max={fechaMaxima}
         alCambiar={(hasta) => alCambiar({ ...valor, hasta })}
       />
       <div className="flex flex-col gap-1">
@@ -63,10 +70,14 @@ export function FiltroFechaFranja({ valor, alCambiar }: PropiedadesFiltro) {
 function CampoFecha({
   etiqueta,
   valor,
+  min,
+  max,
   alCambiar,
 }: {
   etiqueta: string;
   valor: string;
+  min?: string;
+  max?: string;
   alCambiar: (valor: string) => void;
 }) {
   return (
@@ -75,6 +86,8 @@ function CampoFecha({
       <input
         type="date"
         value={valor}
+        min={min}
+        max={max}
         onChange={(evento) => alCambiar(evento.target.value)}
         className="rounded-md border border-borde bg-pagina px-3 py-2 text-sm text-texto"
       />
