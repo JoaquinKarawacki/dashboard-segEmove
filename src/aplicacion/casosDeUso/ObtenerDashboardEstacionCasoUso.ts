@@ -31,6 +31,8 @@ export interface DashboardEstacion {
   readonly margen: ResultadoCalculoMargen;
   readonly distribucionPorFranja: DistribucionFranja[];
   readonly evolucionMensual: EvolucionMensual[];
+  /** Fecha/hora de inicio de la última transacción del rango (ISO), o null si no hay. */
+  readonly ultimaTransaccion: string | null;
 }
 
 export class ErrorEstacionNoEncontrada extends Error {
@@ -111,7 +113,20 @@ export class ObtenerDashboardEstacionCasoUso {
 
     const evolucionMensual = calcularEvolucionMensual(todasLasTransaccionesDeLaEstacion);
 
-    return { estacion, kpis, margen, distribucionPorFranja, evolucionMensual };
+    const ultimaTransaccion = transaccionesDelRangoSinFiltroDeFranja.reduce<Date | null>(
+      (masReciente, t) =>
+        !masReciente || t.fechaInicio > masReciente ? t.fechaInicio : masReciente,
+      null,
+    );
+
+    return {
+      estacion,
+      kpis,
+      margen,
+      distribucionPorFranja,
+      evolucionMensual,
+      ultimaTransaccion: ultimaTransaccion ? ultimaTransaccion.toISOString() : null,
+    };
   }
 }
 

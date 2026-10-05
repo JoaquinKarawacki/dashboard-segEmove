@@ -1,10 +1,10 @@
 import { FranjaHoraria } from "@/dominio/entidades/FranjaHoraria";
 
 /**
- * Cada franja horaria es una categoría (identidad), no una magnitud — usa 3
- * hues bien distinguibles entre sí (igual que el dashboard gerencial de
- * referencia de SEG), no tonos de un mismo color, para que se aprecien en
- * los gráficos. Siempre van acompañadas del nombre de la franja en
+ * Cada franja horaria es una categoría (identidad), no una magnitud. Según la
+ * guía de marca de SEG la paleta es rojo + grises (sin azul/verde/ámbar), así
+ * que las franjas se distinguen con el rojo de marca (Punta) y dos grises
+ * (Llano, Valle). Siempre van acompañadas del nombre de la franja en
  * texto/leyenda, nunca se diferencian solo por color.
  */
 export const COLOR_CSS_POR_FRANJA: Readonly<Record<FranjaHoraria, string>> = {
@@ -19,7 +19,7 @@ export const COLOR_CSS_POR_FRANJA: Readonly<Record<FranjaHoraria, string>> = {
  * navegadores) — mantener sincronizado a mano con `globals.css`.
  */
 export const COLOR_HEX_POR_FRANJA: Readonly<Record<FranjaHoraria, string>> = {
-  [FranjaHoraria.Punta]: "#2563eb",
-  [FranjaHoraria.Llano]: "#d97706",
-  [FranjaHoraria.Valle]: "#0891b2",
+  [FranjaHoraria.Punta]: "#ca3517",
+  [FranjaHoraria.Llano]: "#9ca3af",
+  [FranjaHoraria.Valle]: "#6b7280",
 };

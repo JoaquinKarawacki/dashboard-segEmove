@@ -3,42 +3,70 @@
 @tailwind utilities;
 
 /*
- * Paleta basada en el dashboard gerencial de referencia de SEG
- * (cmi-seg-dashboard-standalone.html): fondo e interfaz claros, tipografía y
- * rojo de marca como acento de identidad (pestañas, botones, títulos), pero
- * los GRÁFICOS usan colores bien distinguibles entre sí (no monocromáticos) —
- * igual que ese dashboard de referencia. Sin modo oscuro: la referencia de
- * la empresa tampoco lo usa, y un fondo casi negro resultó ilegible.
+ * Tema oscuro de alto contraste, calcado del mockup de referencia de SEG
+ * ("Dashboard Cargadores EV"): fondo negro, tarjetas gris muy oscuro, rojo de
+ * marca como único acento y una escala de grises para el resto. Siguiendo la
+ * guía de marca (DISEÑO_SEG_DOCUMENTOS), las franjas horarias NO se diferencian
+ * con hues de colores (azul/verde/ámbar) sino con rojo + grises, siempre
+ * acompañadas del nombre en texto/leyenda.
  */
 :root {
-  color-scheme: light;
-  --color-pagina: #f8fafc;
-  --color-superficie: #ffffff;
-  --color-borde: #e2e8f0;
-  --color-texto: #1e293b;
-  --color-texto-secundario: #475569;
-  --color-texto-muted: #94a3b8;
-  --color-grilla: #eef2f6;
+  color-scheme: dark;
 
-  /* Identidad de marca SEG: tipografía + acento rojo en la interfaz. */
+  /* Superficies */
+  --color-pagina: #000000; /* fondo de página */
+  --color-superficie: #1a1a1a; /* tarjetas y bloques */
+  --color-superficie-input: #111111; /* inputs */
+  --color-borde: #2a2a2a; /* bordes de tarjetas/tablas */
+  --color-borde-fuerte: #3a3a3a; /* bordes de inputs y divisores */
+  --color-divisor-tabla: #262626; /* líneas entre filas de tabla */
+  --color-grilla: #2a2a2a; /* grilla de gráficos */
+
+  /* Texto */
+  --color-texto: #f3f4f6; /* texto principal / cifras */
+  --color-texto-secundario: #d1d5db; /* texto secundario */
+  --color-texto-muted: #9ca3af; /* labels, placeholders, metadatos */
+
+  /* Identidad de marca SEG: acento rojo. */
   --color-rojo: #ca3517;
   --color-rojo-oscuro: #a82d12;
   --color-rojo-profundo: #8a2410;
 
-  /* Paleta de estado (semáforo), igual a la del dashboard gerencial de SEG. */
-  --color-estado-bueno: #16a34a;
-  --color-estado-alerta: #d97706;
-  --color-estado-malo: #dc2626;
+  /* Estado de valores (margen, fallas). Sin verde: según la guía de marca el
+     único acento es el rojo — un valor bueno/neutro queda en blanco y un valor
+     malo/alerta en rojo (igual que el mockup). */
+  --color-estado-bueno: #ffffff;
+  --color-estado-alerta: #ca3517;
+  --color-estado-malo: #ca3517;
 
-  /* Paleta categórica para gráficos con varias series (franja horaria, etc.):
-     hues bien distinguibles entre sí, no tonos de un mismo color. */
-  --serie-1: #2563eb;
-  --serie-2: #d97706;
-  --serie-3: #0891b2;
+  /* Paleta categórica de las 3 franjas horarias: rojo de marca + dos grises,
+     bien distinguibles entre sí sobre fondo oscuro. */
+  --serie-1: #ca3517; /* Punta */
+  --serie-2: #9ca3af; /* Llano */
+  --serie-3: #6b7280; /* Valle */
 }
 
 body {
   background-color: var(--color-pagina);
   color: var(--color-texto);
   font-family: var(--font-red-hat, "Red Hat Display", Arial, sans-serif);
+}
+
+a {
+  color: var(--color-rojo);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--color-rojo-oscuro);
+}
+
+/* Inputs de fecha/número en tema oscuro: el ícono del datepicker nativo se ve
+   negro sobre fondo oscuro, así que se invierte para que quede claro. */
+input[type="date"],
+input[type="number"] {
+  color-scheme: dark;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.8);
+  cursor: pointer;
 }

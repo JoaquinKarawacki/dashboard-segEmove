@@ -31,8 +31,14 @@ export function calcularKpisEstacion(
   const ingresoCargoFijoUyu = sumar(transaccionesFiltradas, (t) => t.fijo) / (1 + iva);
   const ingresoTotalUyu = ingresoVentaEnergiaUyu + ingresoCargoFijoUyu;
   const duracionTotalHoras = sumar(transaccionesFiltradas, (t) => t.duracionMinutos) / 60;
-  const transaccionesExitosas = transaccionesFiltradas.filter(fueExitosa).length;
-  const intentosFallidos = transaccionesFiltradas.length - transaccionesExitosas;
+  // Exitosas / fallidas EXACTAMENTE como la hoja "Dashboard <Estación>" del Excel
+  // (celdas B20/F20): exitosas = transacciones con potencia > 0 MENOS las "filas
+  // fantasma" (potencia 1 kW con todo lo demás en cero); fallidos = potencia = 0.
+  // El % de fallas se calcula sobre exitosas + fallidos (NO sobre el total de filas).
+  const transaccionesConPotencia = transaccionesFiltradas.filter(fueExitosa).length;
+  const intentosFantasma = transaccionesFiltradas.filter(esIntentoFantasma).length;
+  const transaccionesExitosas = transaccionesConPotencia - intentosFantasma;
+  const intentosFallidos = transaccionesFiltradas.filter((t) => t.potenciaKw === 0).length;
   const totalIntentos = transaccionesExitosas + intentosFallidos;
 
   return {
@@ -85,4 +91,21 @@ export function calcularDistribucionPorFranja(
 
 function sumar<T>(items: readonly T[], obtenerValor: (item: T) => number): number {
   return items.reduce((acumulado, item) => acumulado + obtenerValor(item), 0);
+}
+
+/**
+ * "Fila fantasma" del Excel: un registro con potencia de exactamente 1 kW y
+ * energía, compra, fijo, venta y total en cero. El Excel la descuenta de las
+ * transacciones exitosas (no es una carga real) y tampoco la cuenta como
+ * fallida — por eso no entra en el denominador del % de fallas.
+ */
+function esIntentoFantasma(t: Transaccion): boolean {
+  return (
+    t.potenciaKw === 1 &&
+    t.energiaKwh === 0 &&
+    t.compra === 0 &&
+    t.fijo === 0 &&
+    t.venta === 0 &&
+    t.total === 0
+  );
 }

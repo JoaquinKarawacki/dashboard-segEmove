@@ -7,6 +7,7 @@ import {
   EstrategiaTarifaUTEExcel,
 } from "@/dominio/servicios/EstrategiaTarifaUTE";
 import { ObtenerDashboardEstacionCasoUso } from "@/aplicacion/casosDeUso/ObtenerDashboardEstacionCasoUso";
+import { ObtenerHistoricoFlotaCasoUso } from "@/aplicacion/casosDeUso/ObtenerHistoricoFlotaCasoUso";
 import { ObtenerRangoDeFechasDisponibleCasoUso } from "@/aplicacion/casosDeUso/ObtenerRangoDeFechasDisponibleCasoUso";
 import { ObtenerResumenGeneralCasoUso } from "@/aplicacion/casosDeUso/ObtenerResumenGeneralCasoUso";
 import { SubirExcelCasoUso } from "@/aplicacion/casosDeUso/SubirExcelCasoUso";
@@ -49,6 +50,7 @@ function crearContenedor() {
       PARAMETROS_TARIFA_UTE_ACTUALES.iva,
     ),
     obtenerResumenGeneralCasoUso: new ObtenerResumenGeneralCasoUso(repositorioTransacciones),
+    obtenerHistoricoFlotaCasoUso: new ObtenerHistoricoFlotaCasoUso(repositorioTransacciones),
     obtenerRangoDeFechasDisponibleCasoUso: new ObtenerRangoDeFechasDisponibleCasoUso(
       repositorioTransacciones,
     ),

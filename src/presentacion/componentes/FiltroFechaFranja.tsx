@@ -17,10 +17,16 @@ interface PropiedadesFiltro {
   readonly fechaMaxima?: string;
 }
 
+const OPCIONES_FRANJA: readonly (FranjaHoraria | "Todas")[] = ["Todas", ...TODAS_LAS_FRANJAS];
+
+const CLASES_LABEL = "text-xs uppercase tracking-[0.08em] text-textoMuted";
+const CLASES_INPUT =
+  "rounded-sm border border-bordeFuerte bg-superficieInput px-2.5 py-2 text-[15px] tabular-nums text-white outline-none";
+
 /** Filtro equivalente a las celdas B6/E6/B8/E8 de cada hoja "Dashboard <Estación>" del Excel. */
 export function FiltroFechaFranja({ valor, alCambiar, fechaMinima, fechaMaxima }: PropiedadesFiltro) {
   return (
-    <div className="flex flex-wrap items-end gap-4 rounded-lg border border-borde bg-superficie p-4">
+    <div className="flex flex-wrap items-end gap-3.5">
       <CampoFecha
         etiqueta="Día desde"
         valor={valor.desde}
@@ -35,33 +41,49 @@ export function FiltroFechaFranja({ valor, alCambiar, fechaMinima, fechaMaxima }
         max={fechaMaxima}
         alCambiar={(hasta) => alCambiar({ ...valor, hasta })}
       />
-      <div className="flex flex-col gap-1">
-        <label className="text-xs text-textoSecundario">Franja horaria</label>
-        <select
-          value={valor.franja}
-          onChange={(evento) =>
-            alCambiar({ ...valor, franja: evento.target.value as ValorFiltro["franja"] })
-          }
-          className="rounded-md border border-borde bg-pagina px-3 py-2 text-sm text-texto"
-        >
-          <option value="Todas">Todas</option>
-          {TODAS_LAS_FRANJAS.map((franja) => (
-            <option key={franja} value={franja}>
-              {franja}
-            </option>
-          ))}
-        </select>
+
+      <div className="flex flex-col gap-1.5">
+        <span className={CLASES_LABEL}>Franja horaria</span>
+        <div className="flex overflow-hidden rounded-full border border-bordeFuerte">
+          {OPCIONES_FRANJA.map((opcion, indice) => {
+            const activa = valor.franja === opcion;
+            return (
+              <button
+                key={opcion}
+                type="button"
+                onClick={() => alCambiar({ ...valor, franja: opcion })}
+                className={`px-4 py-2 text-[15px] transition-colors ${
+                  indice > 0 ? "border-l border-bordeFuerte" : ""
+                } ${
+                  activa
+                    ? "bg-rojo font-bold text-white"
+                    : "bg-superficieInput font-medium text-textoSecundario hover:text-white"
+                }`}
+              >
+                {opcion}
+              </button>
+            );
+          })}
+        </div>
       </div>
-      <div className="flex flex-col gap-1">
-        <label className="text-xs text-textoSecundario">Tipo de cambio (UYU/USD)</label>
+
+      <label className="flex flex-col gap-1.5">
+        <span className={CLASES_LABEL}>Tipo de cambio (UYU/USD)</span>
         <input
           type="number"
           min={1}
           step="0.01"
           value={valor.tipoCambio}
           onChange={(evento) => alCambiar({ ...valor, tipoCambio: Number(evento.target.value) })}
-          className="w-28 rounded-md border border-borde bg-pagina px-3 py-2 text-sm text-texto"
+          className={`w-28 ${CLASES_INPUT}`}
         />
+      </label>
+
+      <div className="flex flex-col gap-1.5">
+        <span className={CLASES_LABEL}>IVA</span>
+        <div className="rounded-sm border border-borde bg-superficieInput px-3 py-2 text-[15px] tabular-nums text-textoSecundario">
+          22 %
+        </div>
       </div>
     </div>
   );
@@ -81,16 +103,16 @@ function CampoFecha({
   alCambiar: (valor: string) => void;
 }) {
   return (
-    <div className="flex flex-col gap-1">
-      <label className="text-xs text-textoSecundario">{etiqueta}</label>
+    <label className="flex flex-col gap-1.5">
+      <span className={CLASES_LABEL}>{etiqueta}</span>
       <input
         type="date"
         value={valor}
         min={min}
         max={max}
         onChange={(evento) => alCambiar(evento.target.value)}
-        className="rounded-md border border-borde bg-pagina px-3 py-2 text-sm text-texto"
+        className={CLASES_INPUT}
       />
-    </div>
+    </label>
   );
 }
