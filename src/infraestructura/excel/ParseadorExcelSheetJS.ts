@@ -2,7 +2,12 @@ import * as XLSX from "xlsx";
 import { ParseadorExcel, ErrorFormatoExcelInvalido } from "@/aplicacion/puertos/ParseadorExcel";
 import { DatosCrudosTransaccion } from "@/dominio/entidades/Transaccion";
 
-const NOMBRE_HOJA_DATOS = "Worksheet";
+/**
+ * Nombres posibles de la hoja de datos, en orden de preferencia. El Excel
+ * "DASHBOARD_CARGADORES" trae los datos en "Panel"; el export crudo del manager
+ * los traía en "Worksheet". Se usa la primera hoja que exista.
+ */
+const NOMBRES_HOJA_DATOS = ["Panel", "Worksheet"] as const;
 
 /**
  * Nombres de columna esperados en la hoja de datos, tal como los exporta el
@@ -40,11 +45,15 @@ type FilaExcel = Record<string, string | number | boolean | Date | undefined>;
 export class ParseadorExcelSheetJS implements ParseadorExcel {
   async parsear(archivo: Buffer): Promise<DatosCrudosTransaccion[]> {
     const libro = XLSX.read(archivo, { type: "buffer", cellDates: true });
-    const hoja = libro.Sheets[NOMBRE_HOJA_DATOS];
+    const nombreHoja = NOMBRES_HOJA_DATOS.find((nombre) => libro.Sheets[nombre]);
 
-    if (!hoja) {
-      throw new ErrorFormatoExcelInvalido(`no se encontró la hoja "${NOMBRE_HOJA_DATOS}".`);
+    if (!nombreHoja) {
+      throw new ErrorFormatoExcelInvalido(
+        `no se encontró ninguna hoja de datos (${NOMBRES_HOJA_DATOS.map((n) => `"${n}"`).join(" o ")}).`,
+      );
     }
+
+    const hoja = libro.Sheets[nombreHoja]!;
 
     // Se lee como matriz (`header: 1`) en vez de dejar que SheetJS arme los
     // objetos: así se evita que una celda vacía en la primera fila de datos
@@ -57,7 +66,7 @@ export class ParseadorExcelSheetJS implements ParseadorExcel {
     });
 
     if (filasComoMatriz.length < 2) {
-      throw new ErrorFormatoExcelInvalido(`la hoja "${NOMBRE_HOJA_DATOS}" no tiene filas de datos.`);
+      throw new ErrorFormatoExcelInvalido(`la hoja "${nombreHoja}" no tiene filas de datos.`);
     }
 
     const [filaCabecera, ...filasDeDatos] = filasComoMatriz;

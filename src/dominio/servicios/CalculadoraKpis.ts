@@ -23,10 +23,12 @@ export function calcularKpisEstacion(
   transaccionesFiltradas: readonly Transaccion[],
   diasDelRango: number,
   tipoCambioUyuUsd: number,
+  iva: number,
 ): KpisEstacion {
   const kwhVendidos = sumar(transaccionesFiltradas, (t) => t.energiaKwh);
-  const ingresoVentaEnergiaUyu = sumar(transaccionesFiltradas, (t) => t.venta);
-  const ingresoCargoFijoUyu = sumar(transaccionesFiltradas, (t) => t.fijo);
+  // Los importes del Panel vienen con IVA incluido; el dashboard los reporta netos.
+  const ingresoVentaEnergiaUyu = sumar(transaccionesFiltradas, (t) => t.venta) / (1 + iva);
+  const ingresoCargoFijoUyu = sumar(transaccionesFiltradas, (t) => t.fijo) / (1 + iva);
   const ingresoTotalUyu = ingresoVentaEnergiaUyu + ingresoCargoFijoUyu;
   const duracionTotalHoras = sumar(transaccionesFiltradas, (t) => t.duracionMinutos) / 60;
   const transaccionesExitosas = transaccionesFiltradas.filter(fueExitosa).length;
@@ -59,6 +61,7 @@ export interface DistribucionFranja {
 export function calcularDistribucionPorFranja(
   transaccionesFiltradasPorFecha: readonly Transaccion[],
   tipoCambioUyuUsd: number,
+  iva: number,
 ): DistribucionFranja[] {
   const kwhTotal = sumar(transaccionesFiltradasPorFecha, (t) => t.energiaKwh);
 
@@ -67,7 +70,8 @@ export function calcularDistribucionPorFranja(
       (t) => t.franjaHoraria === franja,
     );
     const kwhVendidos = sumar(transaccionesDeLaFranja, (t) => t.energiaKwh);
-    const ingresoUyu = sumar(transaccionesDeLaFranja, (t) => t.venta + t.fijo);
+    // Ingreso neto de IVA, igual que en los KPIs.
+    const ingresoUyu = sumar(transaccionesDeLaFranja, (t) => t.venta + t.fijo) / (1 + iva);
 
     return {
       franjaHoraria: franja,

@@ -40,6 +40,9 @@ export class ErrorEstacionNoEncontrada extends Error {
   }
 }
 
+/** Resuelve la estrategia de tarifa UTE que corresponde a cada estación. */
+export type ResolverEstrategiaTarifaUTE = (codigoEstacion: string) => EstrategiaTarifaUTE;
+
 /**
  * Caso de uso: réplica de una hoja "Dashboard <Estación>" del Excel. Orquesta
  * el dominio (filtro, KPIs, distribución por franja, evolución mensual,
@@ -49,7 +52,8 @@ export class ErrorEstacionNoEncontrada extends Error {
 export class ObtenerDashboardEstacionCasoUso {
   constructor(
     private readonly repositorioTransacciones: RepositorioTransacciones,
-    private readonly estrategiaTarifaUTE: EstrategiaTarifaUTE,
+    private readonly resolverEstrategiaTarifaUTE: ResolverEstrategiaTarifaUTE,
+    private readonly iva: number,
   ) {}
 
   async ejecutar(parametros: ParametrosDashboardEstacion): Promise<DashboardEstacion> {
@@ -82,11 +86,13 @@ export class ObtenerDashboardEstacionCasoUso {
       transaccionesFiltradas,
       diasDelRango,
       parametros.tipoCambioUyuUsd,
+      this.iva,
     );
 
     const distribucionPorFranja = calcularDistribucionPorFranja(
       transaccionesDelRangoSinFiltroDeFranja,
       parametros.tipoCambioUyuUsd,
+      this.iva,
     );
 
     const kwhPorFranja = TODAS_LAS_FRANJAS.reduce(
@@ -97,7 +103,7 @@ export class ObtenerDashboardEstacionCasoUso {
       {} as Record<FranjaHoraria, number>,
     );
 
-    const margen = this.estrategiaTarifaUTE.calcularMargen({
+    const margen = this.resolverEstrategiaTarifaUTE(estacion.codigo).calcularMargen({
       kwhPorFranja,
       ingresoTotalUyu: kpis.ingresoTotalUyu,
       diasDelRango,

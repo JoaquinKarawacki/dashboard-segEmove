@@ -136,10 +136,10 @@ export default function PaginaDashboardEstacion() {
 
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
             <KpiCard etiqueta="kWh vendidos" valor={formatearNumero(dashboard.kpis.kwhVendidos)} />
-            <KpiCard etiqueta="Ingreso total (UYU)" valor={formatearUyu(dashboard.kpis.ingresoTotalUyu)} />
-            <KpiCard etiqueta="Ingreso total (USD)" valor={formatearUsd(dashboard.kpis.ingresoTotalUsd)} />
-            <KpiCard etiqueta="Ingreso por venta de energía" valor={formatearUyu(dashboard.kpis.ingresoVentaEnergiaUyu)} />
-            <KpiCard etiqueta="Ingreso por cargo fijo" valor={formatearUyu(dashboard.kpis.ingresoCargoFijoUyu)} />
+            <KpiCard etiqueta="Ingreso total (UYU, sin IVA)" valor={formatearUyu(dashboard.kpis.ingresoTotalUyu)} />
+            <KpiCard etiqueta="Ingreso total (USD, sin IVA)" valor={formatearUsd(dashboard.kpis.ingresoTotalUsd)} />
+            <KpiCard etiqueta="Ingreso por venta de energía (sin IVA)" valor={formatearUyu(dashboard.kpis.ingresoVentaEnergiaUyu)} />
+            <KpiCard etiqueta="Ingreso por cargo fijo (sin IVA)" valor={formatearUyu(dashboard.kpis.ingresoCargoFijoUyu)} />
             <KpiCard etiqueta="Duración total" valor={`${formatearNumero(dashboard.kpis.duracionTotalHoras)} h`} />
             <KpiCard etiqueta="Transacciones exitosas" valor={String(dashboard.kpis.transaccionesExitosas)} />
             <KpiCard etiqueta="Intentos fallidos" valor={String(dashboard.kpis.intentosFallidos)} />
