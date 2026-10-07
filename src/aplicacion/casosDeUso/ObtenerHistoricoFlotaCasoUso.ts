@@ -18,8 +18,14 @@ export interface HistoricoEstacion {
   /** Σ Total ($), bruto. */
   readonly totalRecaudado: number;
   readonly duracionHoras: number;
-  /** Duración (h) / 30, igual que el Excel (sumatoria mensual con base de 30 días). */
-  readonly factorUsoDiario: number;
+  /**
+   * Días del calendario con al menos una transacción incluida (no excluida).
+   * Es el divisor por defecto del "Factor de uso diario" — derivado de los
+   * datos, no hardcodeado. En el Excel ese divisor se cargaba a mano por mes
+   * (los días que el cargador estuvo activo); acá se usa este valor como base
+   * y la presentación permite ajustarlo por estación.
+   */
+  readonly diasConActividad: number;
   /** Transacciones con potencia real de carga (> 0 kW). */
   readonly transaccionesExitosas: number;
   /** Intentos con potencia = 0 kW. */
@@ -27,8 +33,6 @@ export interface HistoricoEstacion {
   /** Sesiones con energía > 0 y duración > 1 minuto (COUNTIFS del Excel). */
   readonly flujoUsuarios: number;
 }
-
-const DIAS_PERIODO_REFERENCIA = 30;
 
 /**
  * Caso de uso: réplica de la hoja "Total histórico" del Excel. Devuelve, por
@@ -63,11 +67,21 @@ function calcularHistorico(estacion: Estacion, transacciones: readonly Transacci
     ventaEnergia,
     totalRecaudado,
     duracionHoras,
-    factorUsoDiario: duracionHoras / DIAS_PERIODO_REFERENCIA,
+    diasConActividad: contarDiasConActividad(transacciones),
     transaccionesExitosas: transacciones.filter((t) => t.potenciaKw > 0).length,
     intentosFallidos: transacciones.filter((t) => t.potenciaKw === 0).length,
     flujoUsuarios: transacciones.filter((t) => t.energiaKwh > 0 && t.duracionMinutos > 1).length,
   };
+}
+
+/** Cuenta los días distintos del calendario (año-mes-día) que tuvieron actividad. */
+function contarDiasConActividad(transacciones: readonly Transaccion[]): number {
+  const dias = new Set(
+    transacciones.map(
+      (t) => `${t.fechaInicio.getFullYear()}-${t.fechaInicio.getMonth()}-${t.fechaInicio.getDate()}`,
+    ),
+  );
+  return dias.size;
 }
 
 function sumar(items: readonly Transaccion[], obtener: (t: Transaccion) => number): number {

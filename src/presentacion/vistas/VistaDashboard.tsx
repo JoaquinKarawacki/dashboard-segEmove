@@ -13,6 +13,7 @@ import { TablaEvolucionMensual } from "@/presentacion/componentes/TablaEvolucion
 import { GraficoEvolucionMensual } from "@/presentacion/componentes/GraficoEvolucionMensual";
 import { TablaCostoUteResumen } from "@/presentacion/componentes/TablaCostoUteResumen";
 import { TablaTotalHistorico } from "@/presentacion/componentes/TablaTotalHistorico";
+import { useDiasActivos } from "@/presentacion/componentes/useDiasActivos";
 import { agregarDashboards } from "@/presentacion/utilidades/agregarDashboards";
 import { esFechaDeInputCompleta, formatearNumero, formatearPorcentaje, formatearUyu } from "@/presentacion/utilidades/formato";
 import { Alcance } from "@/presentacion/componentes/ScopePills";
@@ -32,6 +33,7 @@ export function VistaDashboard({ alcance, desde, hasta, franja, tipoCambio }: Pr
   const [historico, setHistorico] = useState<HistoricoEstacion[] | null>(null);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { overrides: diasOverride, fijar: fijarDias, restablecer: restablecerDias } = useDiasActivos();
 
   // El histórico es acumulado all-time: no depende del rango ni del alcance.
   useEffect(() => {
@@ -160,7 +162,13 @@ export function VistaDashboard({ alcance, desde, hasta, franja, tipoCambio }: Pr
       {historico && (
         <section className="flex flex-col gap-2.5">
           <EncabezadoSeccion titulo="Total histórico" subtitulo="acumulado de todo el histórico · importes con IVA" />
-          <TablaTotalHistorico filas={historico} alcance={alcance} />
+          <TablaTotalHistorico
+            filas={historico}
+            alcance={alcance}
+            diasOverride={diasOverride}
+            onFijarDias={fijarDias}
+            onRestablecerDias={restablecerDias}
+          />
         </section>
       )}
     </div>

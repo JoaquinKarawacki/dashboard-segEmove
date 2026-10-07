@@ -17,7 +17,10 @@ export interface EvolucionMensual {
 export function calcularEvolucionMensual(
   todasLasTransaccionesDeLaEstacion: readonly Transaccion[],
 ): EvolucionMensual[] {
-  const gruposPorMes = agruparPorAnioMes(todasLasTransaccionesDeLaEstacion);
+  // Las transacciones marcadas "Excluir" nunca entran en ningún cálculo, igual
+  // que en el Excel (todos sus SUMIFS filtran la columna "Excluir" = 0).
+  const transaccionesIncluidas = todasLasTransaccionesDeLaEstacion.filter((t) => !t.excluir);
+  const gruposPorMes = agruparPorAnioMes(transaccionesIncluidas);
 
   return Array.from(gruposPorMes.entries())
     .map(([claveAnioMes, transaccionesDelMes]) => {
