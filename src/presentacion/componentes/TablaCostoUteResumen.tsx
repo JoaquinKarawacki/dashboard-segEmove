@@ -45,7 +45,7 @@ export function TablaCostoUteResumen({ dashboards, alcance }: Propiedades) {
             <th className={CLASES_TH}>Costo UTE</th>
             <th className={CLASES_TH}>Gestión EVE (12 %)</th>
             <th className={CLASES_TH}>SIM 4G</th>
-            <th className={`${CLASES_TH} w-[260px] text-left`}>Margen neto (UYU)</th>
+            <th className={`${CLASES_TH} w-[260px] text-left`}>Margen bruto (UYU)</th>
             <th className={`${CLASES_TH} text-left`}>Última transacción</th>
           </tr>
         </thead>

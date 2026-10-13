@@ -126,7 +126,7 @@ export function VistaDashboard({ alcance, desde, hasta, franja, tipoCambio }: Pr
           <KpiCard etiqueta="% de fallas" valor={formatearPorcentaje(datos.kpis.porcentajeFallas)} acentoRojo={datos.kpis.porcentajeFallas > 0.06} />
           <KpiCard etiqueta="Factor de uso (h promedio/día)" valor={formatearNumero(datos.kpis.factorUsoDiarioHoras)} unidad="h/día" />
           <KpiCard
-            etiqueta="Margen neto (UYU)"
+            etiqueta="Margen bruto (UYU)"
             valor={formatearUyu(datos.margen.margenNetoUyu)}
             resaltarSegunSigno
             valorNumericoParaSigno={datos.margen.margenNetoUyu}
@@ -148,9 +148,7 @@ export function VistaDashboard({ alcance, desde, hasta, franja, tipoCambio }: Pr
         <EncabezadoSeccion titulo="Evolución mensual por franja horaria" subtitulo="histórico completo, sin filtro" />
         <div className="grid gap-2 md:grid-cols-2">
           <TablaEvolucionMensual filas={datos.evolucionMensual} />
-          <div className="rounded-sm border border-borde bg-superficie p-4">
-            <GraficoEvolucionMensual filas={datos.evolucionMensual} />
-          </div>
+          <GraficoEvolucionMensual filas={datos.evolucionMensual} />
         </div>
       </section>
 
