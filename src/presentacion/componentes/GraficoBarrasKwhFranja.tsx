@@ -1,6 +1,6 @@
 import { DistribucionFranja } from "@/dominio/servicios/CalculadoraKpis";
 import { FranjaHoraria } from "@/dominio/entidades/FranjaHoraria";
-import { formatearNumero } from "../utilidades/formato";
+import { formatearEntero } from "../utilidades/formato";
 import { COLOR_CSS_POR_FRANJA } from "../utilidades/colorPorFranja";
 
 interface Propiedades {
@@ -27,7 +27,7 @@ export function GraficoBarrasKwhFranja({ filas }: Propiedades) {
       <div className="flex h-[220px] items-end gap-8 border-b border-bordeFuerte px-5">
         {filas.map((fila) => (
           <div key={fila.franjaHoraria} className="flex h-full flex-1 flex-col items-center justify-end gap-1.5">
-            <div className="tabular-nums text-base text-white">{formatearNumero(fila.kwhVendidos)}</div>
+            <div className="tabular-nums text-base text-white">{formatearEntero(fila.kwhVendidos)}</div>
             <div
               className="w-full max-w-[120px]"
               style={{

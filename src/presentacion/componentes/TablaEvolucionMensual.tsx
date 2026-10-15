@@ -1,6 +1,6 @@
 import { EvolucionMensual } from "@/dominio/servicios/CalculadoraEvolucionMensual";
 import { FranjaHoraria } from "@/dominio/entidades/FranjaHoraria";
-import { formatearNumero, nombreDelMes } from "../utilidades/formato";
+import { formatearEntero, nombreDelMes } from "../utilidades/formato";
 
 interface Propiedades {
   readonly filas: readonly EvolucionMensual[];
@@ -40,20 +40,20 @@ export function TablaEvolucionMensual({ filas }: Propiedades) {
               <td className="border-b border-divisorTabla px-2.5 py-3 font-semibold text-white">
                 {nombreDelMes(fila.mes)}
               </td>
-              <td className={CLASES_TD}>{formatearNumero(fila.kwhPorFranja[FranjaHoraria.Punta])}</td>
-              <td className={CLASES_TD}>{formatearNumero(fila.kwhPorFranja[FranjaHoraria.Llano])}</td>
-              <td className={CLASES_TD}>{formatearNumero(fila.kwhPorFranja[FranjaHoraria.Valle])}</td>
-              <td className={`${CLASES_TD} text-white`}>{formatearNumero(fila.kwhTotal)}</td>
+              <td className={CLASES_TD}>{formatearEntero(fila.kwhPorFranja[FranjaHoraria.Punta])}</td>
+              <td className={CLASES_TD}>{formatearEntero(fila.kwhPorFranja[FranjaHoraria.Llano])}</td>
+              <td className={CLASES_TD}>{formatearEntero(fila.kwhPorFranja[FranjaHoraria.Valle])}</td>
+              <td className={`${CLASES_TD} text-white`}>{formatearEntero(fila.kwhTotal)}</td>
             </tr>
           ))}
         </tbody>
         <tfoot>
           <tr className="bg-black font-bold text-white">
             <td className="px-2.5 py-3">TOTAL</td>
-            <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.punta)}</td>
-            <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.llano)}</td>
-            <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.valle)}</td>
-            <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.total)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums">{formatearEntero(totales.punta)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums">{formatearEntero(totales.llano)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums">{formatearEntero(totales.valle)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums">{formatearEntero(totales.total)}</td>
           </tr>
         </tfoot>
       </table>

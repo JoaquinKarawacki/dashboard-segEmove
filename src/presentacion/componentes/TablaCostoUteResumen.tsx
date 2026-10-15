@@ -1,5 +1,5 @@
 import { DashboardEstacion } from "@/aplicacion/casosDeUso/ObtenerDashboardEstacionCasoUso";
-import { formatearNumero } from "../utilidades/formato";
+import { formatearEntero } from "../utilidades/formato";
 import { Alcance } from "./ScopePills";
 import { COLOR_CSS_POR_FRANJA } from "../utilidades/colorPorFranja";
 import { FranjaHoraria } from "@/dominio/entidades/FranjaHoraria";
@@ -61,10 +61,10 @@ export function TablaCostoUteResumen({ dashboards, alcance }: Propiedades) {
                     {d.estacion.nombre}
                   </span>
                 </td>
-                <td className={CLASES_TD}>{formatearNumero(d.kpis.ingresoTotalUyu)}</td>
-                <td className={CLASES_TD}>{formatearNumero(d.margen.costoTotalUte)}</td>
-                <td className={CLASES_TD}>{formatearNumero(d.margen.costoGestionEve)}</td>
-                <td className={CLASES_TD}>{formatearNumero(d.margen.costoSim4g)}</td>
+                <td className={CLASES_TD}>{formatearEntero(d.kpis.ingresoTotalUyu)}</td>
+                <td className={CLASES_TD}>{formatearEntero(d.margen.costoTotalUte)}</td>
+                <td className={CLASES_TD}>{formatearEntero(d.margen.costoGestionEve)}</td>
+                <td className={CLASES_TD}>{formatearEntero(d.margen.costoSim4g)}</td>
                 <td className="border-b border-divisorTabla px-2.5 py-3">
                   <div className="flex items-center gap-2.5">
                     <div className="h-3.5 flex-1 overflow-hidden bg-borde">
@@ -91,10 +91,10 @@ export function TablaCostoUteResumen({ dashboards, alcance }: Propiedades) {
         <tfoot>
           <tr className="bg-black font-bold text-white">
             <td className="px-2.5 py-3">TOTAL</td>
-            <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.ingreso)}</td>
-            <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.ute)}</td>
-            <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.eve)}</td>
-            <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.sim)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums">{formatearEntero(totales.ingreso)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums">{formatearEntero(totales.ute)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums">{formatearEntero(totales.eve)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums">{formatearEntero(totales.sim)}</td>
             <td className={`px-2.5 py-3 text-right tabular-nums ${totales.margen < 0 ? "text-rojo" : "text-white"}`}>
               {formatearNumeroConSigno(totales.margen)}
             </td>
@@ -107,7 +107,7 @@ export function TablaCostoUteResumen({ dashboards, alcance }: Propiedades) {
 }
 
 function formatearNumeroConSigno(valor: number): string {
-  return `${valor < 0 ? "−" : ""}${formatearNumero(Math.abs(valor))}`;
+  return `${valor < 0 ? "−" : ""}${formatearEntero(Math.abs(valor))}`;
 }
 
 function formatearFechaHora(iso: string | null): string {

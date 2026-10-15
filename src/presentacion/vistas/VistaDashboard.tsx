@@ -15,7 +15,7 @@ import { TablaCostoUteResumen } from "@/presentacion/componentes/TablaCostoUteRe
 import { TablaTotalHistorico } from "@/presentacion/componentes/TablaTotalHistorico";
 import { useDiasActivos } from "@/presentacion/componentes/useDiasActivos";
 import { agregarDashboards } from "@/presentacion/utilidades/agregarDashboards";
-import { esFechaDeInputCompleta, formatearNumero, formatearPorcentaje, formatearUyu } from "@/presentacion/utilidades/formato";
+import { esFechaDeInputCompleta, formatearEntero, formatearNumero, formatearPorcentaje, formatearUyu } from "@/presentacion/utilidades/formato";
 import { Alcance } from "@/presentacion/componentes/ScopePills";
 
 const RETARDO_DEBOUNCE_MS = 400;
@@ -115,11 +115,11 @@ export function VistaDashboard({ alcance, desde, hasta, franja, tipoCambio }: Pr
         </div>
 
         <div className="grid gap-2 [grid-template-columns:repeat(auto-fill,minmax(220px,1fr))]">
-          <KpiCard etiqueta="kWh vendidos" valor={formatearNumero(datos.kpis.kwhVendidos)} unidad="kWh" acentoRojo />
-          <KpiCard etiqueta="Ingreso total (UYU)" valor={formatearNumero(datos.kpis.ingresoTotalUyu)} unidad="$" />
-          <KpiCard etiqueta="Ingreso total (USD)" valor={formatearNumero(datos.kpis.ingresoTotalUsd)} unidad="US$" detalle={`TC ${tipoCambio}`} />
-          <KpiCard etiqueta="Ingreso por venta de energía (UYU)" valor={formatearNumero(datos.kpis.ingresoVentaEnergiaUyu)} unidad="$" />
-          <KpiCard etiqueta="Ingreso por cargo fijo (UYU)" valor={formatearNumero(datos.kpis.ingresoCargoFijoUyu)} unidad="$" />
+          <KpiCard etiqueta="kWh vendidos" valor={formatearEntero(datos.kpis.kwhVendidos)} unidad="kWh" acentoRojo />
+          <KpiCard etiqueta="Ingreso total (UYU)" valor={formatearEntero(datos.kpis.ingresoTotalUyu)} unidad="$" />
+          <KpiCard etiqueta="Ingreso total (USD)" valor={formatearEntero(datos.kpis.ingresoTotalUsd)} unidad="US$" detalle={`TC ${tipoCambio}`} />
+          <KpiCard etiqueta="Ingreso por venta de energía (UYU)" valor={formatearEntero(datos.kpis.ingresoVentaEnergiaUyu)} unidad="$" />
+          <KpiCard etiqueta="Ingreso por cargo fijo (UYU)" valor={formatearEntero(datos.kpis.ingresoCargoFijoUyu)} unidad="$" />
           <KpiCard etiqueta="Duración total (h)" valor={formatearNumero(datos.kpis.duracionTotalHoras)} unidad="h" />
           <KpiCard etiqueta="Transacciones exitosas" valor={String(datos.kpis.transaccionesExitosas)} />
           <KpiCard etiqueta="Intentos fallidos" valor={String(datos.kpis.intentosFallidos)} acentoRojo />

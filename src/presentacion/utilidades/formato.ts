@@ -11,6 +11,7 @@ const FORMATO_MONEDA_USD = new Intl.NumberFormat("en-US", {
 });
 
 const FORMATO_NUMERO = new Intl.NumberFormat("es-UY", { maximumFractionDigits: 1 });
+const FORMATO_ENTERO = new Intl.NumberFormat("es-UY", { maximumFractionDigits: 0 });
 const FORMATO_PORCENTAJE = new Intl.NumberFormat("es-UY", {
   style: "percent",
   maximumFractionDigits: 1,
@@ -24,8 +25,14 @@ export function formatearUsd(valor: number): string {
   return FORMATO_MONEDA_USD.format(valor);
 }
 
+/** Número con un decimal. Se usa solo en los cuadros/columnas que deben mostrar coma. */
 export function formatearNumero(valor: number): string {
   return FORMATO_NUMERO.format(valor);
+}
+
+/** Número redondeado, sin decimales (con separador de miles). Es el formato por defecto del dashboard. */
+export function formatearEntero(valor: number): string {
+  return FORMATO_ENTERO.format(valor);
 }
 
 export function formatearPorcentaje(valor: number): string {

@@ -67,6 +67,9 @@ export default function PaginaDashboard() {
             <div className="mx-1 hidden h-6 w-px bg-bordeFuerte sm:block" />
             <ScopePills valor={alcance} alCambiar={setAlcance} />
           </div>
+          <span className="hidden text-xs italic text-textoMuted lg:block">
+            Todos los valores expresados no incluyen IVA
+          </span>
           <div className="flex items-center gap-4">
             <RelojEnVivo />
             <CargarExcelBoton />

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import type { HistoricoEstacion } from "@/aplicacion/casosDeUso/ObtenerHistoricoFlotaCasoUso";
 import { FranjaHoraria } from "@/dominio/entidades/FranjaHoraria";
-import { formatearNumero } from "../utilidades/formato";
+import { formatearEntero, formatearNumero } from "../utilidades/formato";
 import { Alcance } from "./ScopePills";
 import { COLOR_CSS_POR_FRANJA } from "../utilidades/colorPorFranja";
 
@@ -103,13 +103,13 @@ export function TablaTotalHistorico({
                         style={{ width: `${(fila.kwhVendidos / maxKwh) * 100}%`, backgroundColor: COLORES_CARGADOR[indice], opacity: 0.85 }}
                       />
                     </div>
-                    <span className="min-w-[90px] text-right tabular-nums text-white">{formatearNumero(fila.kwhVendidos)}</span>
+                    <span className="min-w-[90px] text-right tabular-nums text-white">{formatearEntero(fila.kwhVendidos)}</span>
                   </div>
                 </td>
-                <td className={CLASES_TD}>{formatearNumero(fila.ventaCostoFijo)}</td>
-                <td className={CLASES_TD}>{formatearNumero(fila.ventaEnergia)}</td>
-                <td className={`${CLASES_TD} font-bold text-white`}>{formatearNumero(fila.totalRecaudado)}</td>
-                <td className={CLASES_TD}>{formatearNumero(fila.duracionHoras)}</td>
+                <td className={CLASES_TD}>{formatearEntero(fila.ventaCostoFijo)}</td>
+                <td className={CLASES_TD}>{formatearEntero(fila.ventaEnergia)}</td>
+                <td className={`${CLASES_TD} font-bold text-white`}>{formatearEntero(fila.totalRecaudado)}</td>
+                <td className={CLASES_TD}>{formatearEntero(fila.duracionHoras)}</td>
                 <td className={CLASES_TD}>
                   <span className="inline-flex items-center justify-end gap-1.5">
                     <CampoDias dias={dias} onComprometer={(d) => onFijarDias(fila.estacion.codigo, d)} />
@@ -117,7 +117,7 @@ export function TablaTotalHistorico({
                       <button
                         type="button"
                         onClick={() => onRestablecerDias(fila.estacion.codigo)}
-                        title={`Volver al valor por defecto (${formatearNumero(fila.diasConActividad)} días con actividad)`}
+                        title={`Volver al valor por defecto (${formatearEntero(fila.diasConActividad)} días con actividad)`}
                         className="text-textoMuted transition-colors hover:text-rojo"
                         aria-label="Restablecer días activos"
                       >
@@ -127,9 +127,9 @@ export function TablaTotalHistorico({
                   </span>
                 </td>
                 <td className={`${CLASES_TD} text-white`}>{formatearNumero(factorUsoDe(fila, dias))}</td>
-                <td className={`${CLASES_TD} text-white`}>{formatearNumero(fila.transaccionesExitosas)}</td>
-                <td className={`${CLASES_TD} text-rojo`}>{formatearNumero(fila.intentosFallidos)}</td>
-                <td className={CLASES_TD}>{formatearNumero(fila.flujoUsuarios)}</td>
+                <td className={`${CLASES_TD} text-white`}>{formatearEntero(fila.transaccionesExitosas)}</td>
+                <td className={`${CLASES_TD} text-rojo`}>{formatearEntero(fila.intentosFallidos)}</td>
+                <td className={CLASES_TD}>{formatearEntero(fila.flujoUsuarios)}</td>
               </tr>
             );
           })}
@@ -137,16 +137,16 @@ export function TablaTotalHistorico({
         <tfoot>
           <tr className="bg-black font-bold text-white">
             <td className="px-2.5 py-3">Totales de los 3 puntos</td>
-            <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.kwh)}</td>
-            <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.fijo)}</td>
-            <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.venta)}</td>
-            <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.total)}</td>
-            <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.duracion)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums">{formatearEntero(totales.kwh)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums">{formatearEntero(totales.fijo)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums">{formatearEntero(totales.venta)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums">{formatearEntero(totales.total)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums">{formatearEntero(totales.duracion)}</td>
             <td className="px-2.5 py-3" />
             <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.factorUso)}</td>
-            <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.exitosas)}</td>
-            <td className="px-2.5 py-3 text-right tabular-nums text-rojo">{formatearNumero(totales.fallidos)}</td>
-            <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.usuarios)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums">{formatearEntero(totales.exitosas)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums text-rojo">{formatearEntero(totales.fallidos)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums">{formatearEntero(totales.usuarios)}</td>
           </tr>
         </tfoot>
       </table>

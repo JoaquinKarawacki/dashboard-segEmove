@@ -1,5 +1,5 @@
 import { DistribucionFranja } from "@/dominio/servicios/CalculadoraKpis";
-import { formatearNumero, formatearPorcentaje, formatearUsd, formatearUyu } from "../utilidades/formato";
+import { formatearEntero, formatearPorcentaje, formatearUsd, formatearUyu } from "../utilidades/formato";
 import { COLOR_CSS_POR_FRANJA } from "../utilidades/colorPorFranja";
 
 interface Propiedades {
@@ -43,7 +43,7 @@ export function TablaDistribucionFranja({ filas }: Propiedades) {
                   {fila.franjaHoraria}
                 </span>
               </td>
-              <td className={CLASES_TD}>{formatearNumero(fila.kwhVendidos)}</td>
+              <td className={CLASES_TD}>{formatearEntero(fila.kwhVendidos)}</td>
               <td className={CLASES_TD}>{formatearUyu(fila.ingresoUyu)}</td>
               <td className={CLASES_TD}>{formatearUsd(fila.ingresoUsd)}</td>
               <td className="border-b border-divisorTabla px-2.5 py-3">
@@ -68,7 +68,7 @@ export function TablaDistribucionFranja({ filas }: Propiedades) {
         <tfoot>
           <tr className="bg-black font-bold text-white">
             <td className="px-2.5 py-3">Total</td>
-            <td className="px-2.5 py-3 text-right tabular-nums">{formatearNumero(totales.kwh)}</td>
+            <td className="px-2.5 py-3 text-right tabular-nums">{formatearEntero(totales.kwh)}</td>
             <td className="px-2.5 py-3 text-right tabular-nums">{formatearUyu(totales.uyu)}</td>
             <td className="px-2.5 py-3 text-right tabular-nums">{formatearUsd(totales.usd)}</td>
             <td className="px-2.5 py-3 text-right tabular-nums">100%</td>

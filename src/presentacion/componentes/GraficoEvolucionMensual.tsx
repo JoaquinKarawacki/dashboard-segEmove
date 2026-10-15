@@ -1,6 +1,6 @@
 import { EvolucionMensual } from "@/dominio/servicios/CalculadoraEvolucionMensual";
 import { FranjaHoraria } from "@/dominio/entidades/FranjaHoraria";
-import { formatearNumero, nombreDelMes } from "../utilidades/formato";
+import { formatearEntero, nombreDelMes } from "../utilidades/formato";
 import { COLOR_CSS_POR_FRANJA } from "../utilidades/colorPorFranja";
 
 interface Propiedades {
@@ -72,7 +72,7 @@ export function GraficoEvolucionMensual({ filas }: Propiedades) {
             key={`${fila.anio}-${fila.mes}`}
             className="flex h-full flex-1 flex-col items-center justify-end gap-1.5"
           >
-            <div className="tabular-nums text-base text-white">{formatearNumero(fila.kwhTotal)}</div>
+            <div className="tabular-nums text-base text-white">{formatearEntero(fila.kwhTotal)}</div>
             <div className="flex w-full max-w-[120px] flex-col">
               {ORDEN_APILADO.map((franja) => (
                 <div
