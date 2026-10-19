@@ -51,7 +51,7 @@ export default function PaginaDashboard() {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-4">
             <Image
-              src="/seg-e-move-logo.png"
+              src="/seg-emove-logo.png"
               alt="SEG e-move"
               width={90}
               height={53}
